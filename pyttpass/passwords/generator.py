@@ -18,9 +18,11 @@ class PasswordGenerator:
         password_character_combo = [cls.lower_case, cls.upper_case, cls.numbers, cls.special_chars]
         for _ in range(lenght):
             # trunk-ignore(bandit/B311)
-            yield random.choice(random.choice(password_character_combo))
+            adjusted_probability = random.choices(password_character_combo, weights=(50,50,30,20), k=4)
+            # trunk-ignore(bandit/B311)
+            yield random.choice(random.choice(adjusted_probability))
 
 if __name__ == '__main__':
     generator = PasswordGenerator()
-    password = ''.join([c for c in PasswordGenerator.generate_password_character(8)])
+    password = ''.join([c for c in PasswordGenerator.generate_password_character(12)])
     print(password)
