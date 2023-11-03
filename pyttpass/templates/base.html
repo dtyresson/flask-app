@@ -46,9 +46,13 @@
 <body>
     <nav>
         <a href="{{ url_for('main.index') }}">FlaskApp</a>
-        <a href="{{ url_for('passwords.index') }}">Posts</a>
-        <a href="{{ url_for('passwords.passwords') }}">Passwords</a>
-        <a href="#">Questions</a>
+        <a href="{{ url_for('passwords.index') }}">Passwords</a>
+        <a href="{{ url_for('passwords.passwords') }}">Password</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        {% endif %}
     </nav>
     <hr>
     <div class="content">

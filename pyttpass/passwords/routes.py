@@ -1,10 +1,37 @@
-from flask import render_template
-from pyttpass.passwords import bp
+from flask import render_template, request, flash
+from pyttpass.passwords import password_bp
+from pyttpass.extensions import db
+from pyttpass.models.passwords import Password, AddPassword
 
-@bp.route('/')
+@password_bp.route('/')
 def index():
-    return render_template('passwords/index.html')
+    passwords = Password.query.all()
+    return render_template('passwords/index.html', pwds=passwords)
 
-@bp.route('/passwords/')
+@password_bp.route('/passwords/')
 def passwords():
     return render_template('passwords/passwords.html')
+
+@password_bp.route('/add_password/', methods=['GET', 'POST'])
+def add_password():
+    form1 = AddPassword()
+    if form1.validate_on_submit():
+        name = request.form['name']
+        website = request.form['website']
+        username = request.form['username']
+        value = request.form['value']
+        desc = request.form['desc']
+        record = Password(name, website, username, value, desc)
+        db.session.add(record)
+        db.session.commit()
+        # create a message to send to the template
+        message = f"The data for password {name} has been submitted."
+        return render_template('passwords/add_password.html', message=message)
+    else:
+        for field, errors in form1.errors.items():
+            for error in errors:
+                flash("Error in {}: {}".format(
+                    getattr(form1, field).label.text,
+                    error
+                ), 'error')
+        return render_template('passwords/add_password.html', form1=form1)

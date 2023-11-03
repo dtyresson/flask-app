@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-bp = Blueprint('passwords', __name__)
+password_bp = Blueprint('passwords', __name__)
 
 
 from pyttpass.passwords import routes

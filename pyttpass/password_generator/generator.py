@@ -1,6 +1,19 @@
 import random
 from english_words import get_english_words_set
 
+class CharTypes:
+
+    LOWER = ['a','b','c','d','e','f','g','h','i',
+                  'j','k','l','m','n','o','p','q','r',
+                  's','t','u','v','w','x','y','z']
+
+    UPPER = [letter.upper() for letter in LOWER]
+
+    NUMBER = ['0','1','2','3','4','5','6','7','8','9']
+
+    SPECIAL = ['!','"','#','¤','%','&','/','(',')','=',
+                     '?','|','@','£','$','{','[',']','}','\\']
+
 class Generator:
     def generate():
         pass
@@ -28,30 +41,19 @@ class PassphraseGenerator(Generator):
 
 class PasswordGenerator(Generator):
 
-    lower_case = ['a','b','c','d','e','f','g','h','i',
-                  'j','k','l','m','n','o','p','q','r',
-                  's','t','u','v','w','x','y','z']
-
-    upper_case = [letter.upper() for letter in lower_case]
-
-    numbers = ['0','1','2','3','4','5','6','7','8','9']
-
-    special_chars = ['!','"','#','¤','%','&','/','(',')','=',
-                     '?','|','@','£','$','{','[',']','}','\\']
-
     @classmethod
-    def generate_password_characters(cls, lenght: int):
-        generator_character_list = [cls.lower_case, cls.upper_case, cls.numbers, cls.special_chars]
-        adjusted_probability = random.choices(generator_character_list, weights=(50,50,30,20), k=8)
+    def generate_password_characters(cls, lenght: int, adjusted_char_probability):
         for _ in range(lenght):
-            yield random.choice(random.choice(adjusted_probability))
+            yield random.choice(random.choice(adjusted_char_probability))
 
     @classmethod
-    def generate(cls, lenght: int):
-        return ''.join([c for c in cls.generate_password_characters(lenght)])
+    def generate(cls, lenght: int, *args):
+
+        #TODO Adjust dynamic weights
+        adjusted_char_probability = random.choices(args, weights=(50,50,30,20), k=len(args)*2)
+        return ''.join((c for c in cls.generate_password_characters(lenght, adjusted_char_probability)))
 
 if __name__ == '__main__':
 
-    #password = PasswordGenerator.generate(12)
-    password = PassphraseGenerator.generate(3)
-    print(password)
+    print(PasswordGenerator.generate(12, CharTypes.LOWER, CharTypes.UPPER, CharTypes.NUMBER, CharTypes.SPECIAL))
+    print(PassphraseGenerator.generate(3))

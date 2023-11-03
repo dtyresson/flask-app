@@ -4,5 +4,24 @@
     <span class="title"><h1>{% block title %} The Posts Page {% endblock %}</h1></span>
     <div class="content">
         <h2>This is the posts password Flask blueprint</h2>
+        {% for pwd in pwds %}
+            <div class="post">
+                <p><b>#{{ pwd.id }}</b></p>
+                <p class="Name">
+                    <b>
+                        <a href="#">
+                            {{ pwd.name }}
+                        </a>
+                    </b>
+                </p>
+                <div class="Website">
+                    <p>{{ pwd.website }}</p>
+                </div>
+                <div class="Value">
+                    <p>{{ pwd.value }}</p>
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
