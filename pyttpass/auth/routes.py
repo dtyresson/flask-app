@@ -52,7 +52,6 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-    print(f'Added new user: {new_user}')
 
     return redirect(url_for('auth.login'))
 
