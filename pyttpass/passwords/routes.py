@@ -1,6 +1,7 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required
 
+from pyttpass.password_generator import PasswordGenerator, PassphraseGenerator, CharTypes
 from pyttpass.passwords import password_bp
 from pyttpass.extensions import db
 from pyttpass.models.passwords import Password, AddPassword
@@ -54,3 +55,12 @@ def del_password(password_id):
     db.session.delete(password)
     db.session.commit()
     return redirect(url_for('passwords.index'))
+
+
+@password_bp.route('/password_generator')
+def password_generator():
+	pwd = PasswordGenerator.generate(12, CharTypes.LOWER, CharTypes.UPPER, CharTypes.NUMBER, CharTypes.SPECIAL)
+	try:
+		return jsonify(pwd=pwd)
+	except Exception as e:
+		return str(e)

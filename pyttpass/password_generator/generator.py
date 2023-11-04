@@ -34,7 +34,7 @@ class PassphraseGenerator(Generator):
 class PasswordGenerator(Generator):
 
     @classmethod
-    def generate_password_characters(cls, lenght: int, adjusted_char_probability):
+    def randomize_password_characters(cls, lenght: int, adjusted_char_probability):
         for _ in range(lenght):
             yield random.choice(random.choice(adjusted_char_probability))
 
@@ -43,7 +43,7 @@ class PasswordGenerator(Generator):
 
         #TODO Adjust dynamic weights
         adjusted_char_probability = random.choices(args, weights=(50,50,30,20), k=len(args)*2)
-        return ''.join(list(cls.generate_password_characters(lenght, adjusted_char_probability)))
+        return ''.join(list(cls.randomize_password_characters(lenght, adjusted_char_probability)))
 
 if __name__ == '__main__':
 

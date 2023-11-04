@@ -1,1 +1,1 @@
-from .generator import PasswordGenerator, PassphraseGenerator
+from .generator import PasswordGenerator, PassphraseGenerator, CharTypes
