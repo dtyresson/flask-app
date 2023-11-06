@@ -51,10 +51,16 @@ def show_password(password_id):
 @password_bp.post('/<int:password_id>/delete/')
 @login_required
 def del_password(password_id):
-    password = Password.query.get_or_404(password_id)
-    db.session.delete(password)
-    db.session.commit()
-    return redirect(url_for('passwords.index'))
+    user_input = request.form.get('user_input')
+    if user_input == "True":
+        password = Password.query.get_or_404(password_id)
+        db.session.delete(password)
+        db.session.commit()
+        return redirect(url_for('passwords.index'))
+    return redirect(url_for('passwords.show_password', password_id=password_id))
+
+
+
 
 
 @password_bp.route('/password_generator')

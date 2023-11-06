@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <span class="title"><h1>{% block title %} Passwords {% endblock %}</h1></span>
-    <div class="content">
-        <h2>User defined passwords</h2>
-        <a href="{{ url_for('passwords.add_password') }}"><button class="button is-block is-info is-large is-fullwidth" >Add new Password</button></a>
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <h2>Your saved passwords</h2>
+        <div>
+        <a href="{{ url_for('passwords.add_password') }}"><button type="submit" class="btn btn-primary">Add new Password</button></a>
+        </div>
         <br>
+        <div>
         {% for pwd in pwds %}
-            <div class="post">
+            <div class="content">
                 <p class="Name">
                     <b>
                         <a href="{{ url_for('passwords.show_password', password_id=pwd.id) }}">
@@ -18,8 +20,8 @@
                 <div class="Website">
                     <p>{{ pwd.website }}</p>
                 </div>
-                <hr>
             </div>
         {% endfor %}
+        </div>
     </div>
 {% endblock %}

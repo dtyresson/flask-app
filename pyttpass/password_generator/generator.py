@@ -4,17 +4,17 @@ from english_words import get_english_words_set
 class CharTypes:
 
     LOWER = ('a','b','c','d','e','f','g','h','i',
-                  'j','k','l','m','n','o','p','q','r',
-                  's','t','u','v','w','x','y','z')
-
+             'j','k','l','m','n','o','p','q','r',
+             's','t','u','v','w','x','y','z')
     UPPER = tuple(letter.upper() for letter in LOWER)
-
     NUMBER = ('0','1','2','3','4','5','6','7','8','9')
-
     SPECIAL = ('!','"','#','¤','%','&','/','(',')','=',
-                     '?','|','@','£','$','{','[',']','}','\\')
+               '?','|','@','£','$','{','[',']','}','\\')
+    ALL_CHARS = (LOWER, UPPER, NUMBER, SPECIAL)
+    WEIGHT = {LOWER: 50, UPPER: 50, NUMBER: 30, SPECIAL: 20}
 
 class Generator:
+
     def generate():
         pass
 
@@ -36,13 +36,14 @@ class PasswordGenerator(Generator):
     @classmethod
     def randomize_password_characters(cls, lenght: int, adjusted_char_probability):
         for _ in range(lenght):
-            yield random.choice(random.choice(adjusted_char_probability))
+            random_char_type = random.choice(adjusted_char_probability)
+            yield random.choice(random_char_type)
 
     @classmethod
     def generate(cls, lenght: int, *args):
 
         #TODO Adjust dynamic weights
-        adjusted_char_probability = random.choices(args, weights=(50,50,30,20), k=len(args)*2)
+        adjusted_char_probability = random.choices(args, weights=(CharTypes.WEIGHT[w] for w in args), k=len(args)*2)
         return ''.join(list(cls.randomize_password_characters(lenght, adjusted_char_probability)))
 
 if __name__ == '__main__':
