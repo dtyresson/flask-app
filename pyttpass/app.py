@@ -1,9 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
 from config import Config
+import os
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config['VERSION'] = os.environ.get('VERSION')
 
     # Initialize Flask extensions here
     from pyttpass.extensions import db
@@ -32,5 +35,10 @@ def create_app(config_class=Config):
 
     from pyttpass.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    
+    # Define a context processor to make the footer information available to all templates
+    @app.context_processor
+    def inject_version_info():
+        return dict(version=app.config['VERSION'])
 
     return app

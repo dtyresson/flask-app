@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pyttpass
+  namespace: pyttpass
+  labels:
+    app: pyttpass
+spec:
+  containers:
+  - name: pyttpass
+    image: gitlab.lan.mydomain.com:5050/dennis/pyttpass:1.0-ad069b2f
+    env:
+      - name: VERSION
+        value: 1.0-ad069b2f
+      - name: SECRET_KEY
+        value: ExAmPle5ecrET # For demo purpose. Should be provided as secret!
+    ports:
+    - containerPort: 8080

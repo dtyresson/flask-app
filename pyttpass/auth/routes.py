@@ -35,7 +35,10 @@ def signup():
 
 @auth_bp.route('/signup', methods=['POST'])
 def signup_post():
+
     # code to validate and add user to database goes here
+    if not request.form.validate():
+        return redirect(url_for('auth.login'))
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
