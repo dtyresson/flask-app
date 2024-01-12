@@ -20,6 +20,7 @@ A web application built with Python and Flask for password management.
 
 ## Directory structure
 
+```plaintext
 .
 ├── config.py
 ├── Dockerfile
@@ -59,6 +60,7 @@ A web application built with Python and Flask for password management.
 ├── pyttpass.db
 ├── requirements.txt
 └── wsgi.py
+```
 
 ## Installation
 
